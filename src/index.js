@@ -5,10 +5,10 @@ import dottie from 'dottie';
 
 const config = {};
 
-export function load(configPath, {envVariable = 'NODE_ENV', logger = console.log, envDelimiter = '__'} = {}) {
+export function load(configPath, {envVariable = 'NODE_ENV', logger = console.log, envDelimiter = '__', fileCheck = fs.existsSync} = {}) {
 
   const basePath = path.join(configPath, 'base.json');
-  if (!fs.existsSync(basePath)) {
+  if (!fileCheck(basePath)) {
     throw new Error(`Base config on path ${basePath} does not exist.`);
   }
 
@@ -16,7 +16,7 @@ export function load(configPath, {envVariable = 'NODE_ENV', logger = console.log
 
   if (process.env[envVariable]) {
     const envCfgPath = path.join(configPath, 'environments', `${process.env[envVariable]}.json`);
-    if (fs.existsSync(envCfgPath)) {
+    if (fileCheck(envCfgPath)) {
       logger(`Adding env config '${envCfgPath}'`);
       _.merge(config, require(envCfgPath));
     } else {
@@ -25,7 +25,7 @@ export function load(configPath, {envVariable = 'NODE_ENV', logger = console.log
   }
 
   const customConfigPath = path.join(configPath, 'config.json');
-  if (fs.existsSync(customConfigPath)) {
+  if (fileCheck(customConfigPath)) {
     logger(`Adding custom config '${customConfigPath}'`);
     _.merge(config, require(customConfigPath));
   } else {
