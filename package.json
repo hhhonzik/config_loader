@@ -1,5 +1,5 @@
 {
-  "name": "cfg-loader",
+  "name": "cfg-loader-webpack",
   "version": "0.1.0",
   "devDependencies": {
     "babel-cli": "^6.18.0",
@@ -24,7 +24,7 @@
     "compile": "babel -d ./lib ./src --copy-files"
   },
   "engines": {
-    "node": "6.x.x"
+    "node": "8.x.x || 9.x.x"
   },
   "repository": {
     "type": "git",
