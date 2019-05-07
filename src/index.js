@@ -3,8 +3,6 @@ import fs from 'fs';
 import _ from 'lodash';
 import dottie from 'dottie';
 
-const config = {};
-
 function defaultFileResolver(filepath) {
   if (fs.existsSync(filepath)) {
     return require(filepath);
@@ -12,7 +10,8 @@ function defaultFileResolver(filepath) {
   return false;
 }
 
-export function load(configPath, {envVariable = 'NODE_ENV', logger = console.log, envDelimiter = '__', fileResolver = defaultFileResolver} = {}) {
+export default function load(configPath, {envVariable = 'NODE_ENV', logger = console.log, envDelimiter = '__', fileResolver = defaultFileResolver} = {}) {
+  const config = {};
 
   const baseCfgPath = path.join(configPath, 'base.json');
   const baseCfg = fileResolver(baseCfgPath);
@@ -55,6 +54,5 @@ export function load(configPath, {envVariable = 'NODE_ENV', logger = console.log
     }
   });
 
+  return config;
 }
-
-export default config;
